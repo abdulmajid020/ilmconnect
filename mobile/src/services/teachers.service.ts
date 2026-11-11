@@ -52,3 +52,4 @@ export const TeachersService = {
   deleteTeacherLocation: (id: string) =>
     request<any>(`/teachers/locations/${id}`, { method: 'DELETE' }),
 };
+

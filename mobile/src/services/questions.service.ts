@@ -23,3 +23,4 @@ export const QuestionsService = {
 
   getAnswers: (id: string) => request<any[]>(`/questions/${id}/answers`),
 };
+

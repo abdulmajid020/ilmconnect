@@ -33,3 +33,4 @@ export const ClassesService = {
   createSession: (classId: string, body: any) =>
     request<any>(`/classes/${classId}/sessions`, { method: 'POST', body: JSON.stringify(body) }),
 };
+

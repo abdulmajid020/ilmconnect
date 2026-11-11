@@ -22,3 +22,4 @@ export const RequestsService = {
   respondToRequest: (id: string, body: RespondRequestPayload) =>
     request<any>(`/requests/${id}/respond`, { method: 'PATCH', body: JSON.stringify(body) }),
 };
+
