@@ -40,3 +40,4 @@ go run ./cmd/api
 cd mobile
 npx expo start -c
 ```
+

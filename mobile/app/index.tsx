@@ -1,5 +1,4 @@
 import { Redirect } from 'expo-router';
-import React from 'react';
 import { ActivityIndicator, Text, View } from 'react-native';
 import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
 import { Colors } from '../src/constants/theme';

@@ -1,14 +1,6 @@
 import { X } from 'lucide-react-native';
-import React, { useState } from 'react';
-import {
-  ActivityIndicator,
-  Alert,
-  Modal,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { useState } from 'react';
+import { ActivityIndicator, Alert, Modal, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { api } from '../../api/client';
 
 interface CreateClassModalProps {
@@ -151,3 +143,4 @@ export function CreateClassModal({
     </Modal>
   );
 }
+

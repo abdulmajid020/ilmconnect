@@ -73,3 +73,4 @@ export function RulingHighlightCard({ questions, isDark }: RulingHighlightCardPr
     </View>
   );
 }
+

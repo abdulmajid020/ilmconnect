@@ -213,3 +213,4 @@ export function HomeBannerCarousel({ isDark, hijriLabel }: HomeBannerCarouselPro
     </Animated.View>
   );
 }
+

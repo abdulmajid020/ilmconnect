@@ -15,11 +15,12 @@ import {
   View,
 } from 'react-native';
 import { api, NearbyTeacher } from '../../api/client';
+import { FORMAT_LABELS } from '../../constants/labels';
 import { Colors } from '../../constants/theme';
 import { useLocation } from '../../hooks/useLocation';
 import { ManualLocationModal } from '../common/ManualLocationModal';
+import { NearbyMapView } from '../common/NearbyMapView';
 import { RequestLessonModal } from '../common/RequestLessonModal';
-import { NearbyMapView } from '../NearbyMapView';
 import { NearbyTeacherCard } from './NearbyTeacherCard';
 
 const RADIUS_OPTIONS = [5, 10, 20, 50] as const;
@@ -30,13 +31,6 @@ type Subject = (typeof SUBJECT_FILTERS)[number];
 
 const FORMAT_FILTERS = ['All', 'in_person', 'online', 'hybrid'] as const;
 type Format = (typeof FORMAT_FILTERS)[number];
-
-const FORMAT_LABELS: Record<string, string> = {
-  All: 'All',
-  in_person: 'In Person',
-  online: 'Online',
-  hybrid: 'Hybrid',
-};
 
 interface NearbySegmentViewProps {
   isDark: boolean;
@@ -399,3 +393,4 @@ export function NearbySegmentView({ isDark }: NearbySegmentViewProps) {
     </View>
   );
 }
+

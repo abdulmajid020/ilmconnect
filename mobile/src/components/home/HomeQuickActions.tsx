@@ -110,3 +110,4 @@ export function HomeQuickActions({ isTeacher, isDark }: HomeQuickActionsProps) {
     </View>
   );
 }
+

@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { WebView } from 'react-native-webview';
-import { NearbyTeacher } from '../api/client';
+import { NearbyTeacher } from '../../api/client';
 
 interface NearbyMapViewProps {
   center: { latitude: number; longitude: number };

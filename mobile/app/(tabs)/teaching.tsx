@@ -1,16 +1,7 @@
 import { useRouter } from 'expo-router';
 import { Calendar, GraduationCap, Plus, Users, Video } from 'lucide-react-native';
-import React, { useEffect, useState } from 'react';
-import {
-  ActivityIndicator,
-  Alert,
-  Linking,
-  RefreshControl,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, Alert, Linking, RefreshControl, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { api } from '../../src/api/client';
 import { AddLocationModal } from '../../src/components/teaching/AddLocationModal';

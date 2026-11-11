@@ -1,29 +1,7 @@
 import { useRouter } from 'expo-router';
-import {
-  ChevronRight,
-  GraduationCap,
-  Info,
-  LogOut,
-  Moon,
-  Scale,
-  Share2,
-  Shield,
-  Smartphone,
-  Star,
-  Sun,
-} from 'lucide-react-native';
-import React, { useEffect, useState } from 'react';
-import {
-  Alert,
-  Modal,
-  Platform,
-  RefreshControl,
-  ScrollView,
-  Share,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { ChevronRight, GraduationCap, Info, LogOut, Moon, Scale, Share2, Shield, Smartphone, Star, Sun } from 'lucide-react-native';
+import { useEffect, useState } from 'react';
+import { Alert, Modal, Platform, RefreshControl, ScrollView, Share, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { api } from '../../src/api/client';
 import { Colors } from '../../src/constants/theme';

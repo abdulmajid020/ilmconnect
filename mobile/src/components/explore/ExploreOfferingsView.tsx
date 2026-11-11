@@ -359,3 +359,4 @@ export function ExploreOfferingsView({ isDark }: ExploreOfferingsViewProps) {
     </View>
   );
 }
+

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { RefreshControl, ScrollView, Text, View } from 'react-native';
 import { api } from '../../src/api/client';
 import { AladhanData, fetchPrayerTimes, getNextPrayer, pad2, PrayerKey, timeUntilPrayer, to12Hr } from '../../src/api/prayerTimes';

@@ -1,22 +1,16 @@
 import { HelpCircle, Plus } from 'lucide-react-native';
-import React, { useEffect, useState } from 'react';
-import {
-  ActivityIndicator,
-  RefreshControl,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, RefreshControl, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { api } from '../../src/api/client';
 import { AnswerQuestionModal } from '../../src/components/questions/AnswerQuestionModal';
 import { AskQuestionModal } from '../../src/components/questions/AskQuestionModal';
 import { QuestionCard } from '../../src/components/questions/QuestionCard';
+import { SUBJECT_OPTIONS } from '../../src/constants/labels';
 import { Colors } from '../../src/constants/theme';
 import { useAuth } from '../../src/context/AuthContext';
 import { useTheme } from '../../src/context/ThemeContext';
 
-const SUBJECTS = ['ALL', 'Fiqh', 'Taharah', 'Salah', 'Fasting', 'Aqeedah', 'General'];
+const SUBJECTS = ['ALL', ...SUBJECT_OPTIONS];
 
 export default function QuestionsScreen() {
   const { isDark } = useTheme();

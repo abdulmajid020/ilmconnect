@@ -1,24 +1,9 @@
 import * as Location from 'expo-location';
 import { Locate, X } from 'lucide-react-native';
-import React, { useState } from 'react';
-import {
-  ActivityIndicator,
-  Alert,
-  Modal,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { useState } from 'react';
+import { ActivityIndicator, Alert, Modal, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { api } from '../../api/client';
-
-const LOC_TYPES = [
-  { key: 'MADRASSA', label: 'Madrassa' },
-  { key: 'MOSQUE', label: 'Mosque' },
-  { key: 'ISLAMIC_CENTER', label: 'Islamic Centre' },
-  { key: 'HOME_STUDY', label: 'Home Study' },
-];
+import { LOCATION_TYPE_OPTIONS } from '../../constants/labels';
 
 interface AddLocationModalProps {
   visible: boolean;
@@ -150,7 +135,7 @@ export function AddLocationModal({
             <View>
               <Text className="text-xs font-bold text-sage mb-1.5">Hub Type</Text>
               <View className="flex-row flex-wrap gap-2">
-                {LOC_TYPES.map((t) => (
+                {LOCATION_TYPE_OPTIONS.map((t) => (
                   <TouchableOpacity
                     key={t.key}
                     onPress={() => setLocType(t.key)}
@@ -279,3 +264,4 @@ export function AddLocationModal({
     </Modal>
   );
 }
+

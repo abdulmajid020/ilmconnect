@@ -101,3 +101,4 @@ export function FeaturedClassCard({ classes, isDark }: FeaturedClassCardProps) {
     </View>
   );
 }
+

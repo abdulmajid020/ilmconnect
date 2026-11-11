@@ -5,25 +5,10 @@ import {
   Navigation,
   Users,
 } from 'lucide-react-native';
-import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { NearbyTeacher } from '../../api/client';
+import { FORMAT_LABELS, LOCATION_TYPE_LABELS } from '../../constants/labels';
 import { Colors } from '../../constants/theme';
-
-const LOCATION_TYPE_LABELS: Record<string, string> = {
-  MADRASSA: 'Madrassa',
-  MOSQUE: 'Mosque',
-  ISLAMIC_CENTER: 'Islamic Centre',
-  HOME_STUDY: 'Home Study',
-  ONLINE: 'Online',
-};
-
-const FORMAT_LABELS: Record<string, string> = {
-  All: 'All',
-  in_person: 'In Person',
-  online: 'Online',
-  hybrid: 'Hybrid',
-};
 
 interface NearbyTeacherCardProps {
   teacher: NearbyTeacher;
@@ -135,3 +120,4 @@ export function NearbyTeacherCard({
     </View>
   );
 }
+

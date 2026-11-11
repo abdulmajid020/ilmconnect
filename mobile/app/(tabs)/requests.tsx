@@ -1,26 +1,7 @@
 import { useRouter } from 'expo-router';
-import {
-  Check,
-  CheckCircle2,
-  Clock,
-  MessageSquare,
-  User,
-  Users,
-  Video,
-  X,
-} from 'lucide-react-native';
-import React, { useEffect, useState } from 'react';
-import {
-  ActivityIndicator,
-  Alert,
-  Modal,
-  RefreshControl,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Check, CheckCircle2, Clock, User, X } from 'lucide-react-native';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, Alert, Modal, RefreshControl, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { api } from '../../src/api/client';
 import { Colors } from '../../src/constants/theme';

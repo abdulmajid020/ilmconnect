@@ -12,9 +12,8 @@ import {
   View,
 } from 'react-native';
 import { api } from '../../api/client';
+import { SUBJECT_OPTIONS } from '../../constants/labels';
 import { Colors } from '../../constants/theme';
-
-const SUBJECT_OPTIONS = ['Fiqh', 'Taharah', 'Salah', 'Fasting', 'Aqeedah', 'General'];
 
 interface AskQuestionModalProps {
   visible: boolean;
@@ -174,3 +173,4 @@ export function AskQuestionModal({
     </Modal>
   );
 }
+
