@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import { BookOpen, Compass, GraduationCap, HelpCircle, Home, MapPin, Settings, Users } from 'lucide-react-native';
+import { BookOpen, Compass, GraduationCap, HelpCircle, Home, Settings, Users } from 'lucide-react-native';
 import { Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from '../../src/constants/theme';
@@ -64,26 +64,22 @@ export default function TabsLayout() {
         }}
       />
 
-      {/* 2. STUDENT: EXPLORE CLASSES & SCHOLARS (Hidden for Teachers) */}
+      {/* 2. STUDENT: EXPLORE CLASSES & SCHOLARS + NEARBY (Hidden for Teachers) */}
       <Tabs.Screen
         name="explore"
         options={{
           href: isTeacher ? null : undefined,
           title: 'Explore',
-          headerTitle: 'Explore Classes & Scholars',
+          headerTitle: 'Explore',
+          headerShown: true,
           tabBarIcon: ({ color, size }) => <Compass size={22} color={color} strokeWidth={2.2} />,
         }}
       />
 
-      {/* 3. STUDENT: NEARBY SCHOLARS DISCOVERY (Hidden for Teachers) */}
+      {/* Nearby is embedded inside Explore — hidden from navbar */}
       <Tabs.Screen
         name="nearby"
-        options={{
-          href: isTeacher ? null : undefined,
-          title: 'Nearby',
-          headerShown: false,
-          tabBarIcon: ({ color, size }) => <MapPin size={22} color={color} strokeWidth={2.2} />,
-        }}
+        options={{ href: null }}
       />
 
       {/* 3. TEACHER: MY CLASSES & LIVE TEACHING (Hidden for Students) */}
