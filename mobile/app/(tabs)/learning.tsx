@@ -1,21 +1,6 @@
-import {
-  Calendar,
-  ExternalLink,
-  UserCheck,
-  Users,
-  Video,
-} from 'lucide-react-native';
-import React, { useEffect, useState } from 'react';
-import {
-  ActivityIndicator,
-  Alert,
-  Linking,
-  RefreshControl,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Calendar, ExternalLink, UserCheck, Users, Video } from 'lucide-react-native';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, Alert, Linking, RefreshControl, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 import { api } from '../../src/api/client';
 import { Colors } from '../../src/constants/theme';
