@@ -34,7 +34,7 @@ export async function removeAuthToken() {
   await AsyncStorage.removeItem(TOKEN_KEY);
 }
 
-async function request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+export async function request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
   const token = await getAuthToken();
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',

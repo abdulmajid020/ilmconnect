@@ -1,21 +1,20 @@
 import { useRouter } from 'expo-router';
 import { Check, CheckCircle2, Clock, User, X } from 'lucide-react-native';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { ActivityIndicator, Alert, Modal, RefreshControl, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
-import { api } from '../../src/api/client';
 import { Colors } from '../../src/constants/theme';
 import { useAuth } from '../../src/context/AuthContext';
 import { useTheme } from '../../src/context/ThemeContext';
+import { useRequests } from '../../src/hooks/useRequests';
 
 export default function RequestsScreen() {
   const router = useRouter();
   const { user } = useAuth();
   const { isDark } = useTheme();
 
-  const [requests, setRequests] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
+  const { requests, setRequests, isLoading, refreshing, loadRequests, onRefresh, respondToRequest } =
+    useRequests();
 
   // Accept modal state
   const [selectedRequest, setSelectedRequest] = useState<any>(null);
@@ -23,36 +22,18 @@ export default function RequestsScreen() {
   const [meetLink, setMeetLink] = useState('https://meet.google.com/xyz-1on1');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  useEffect(() => {
-    loadRequests();
-  }, []);
-
-  async function loadRequests() {
-    setIsLoading(true);
-    try {
-      const res = await api.getReceivedRequests();
-      setRequests(Array.isArray(res) ? res : []);
-    } catch {
-      setRequests([]);
-    } finally {
-      setIsLoading(false);
-      setRefreshing(false);
-    }
-  }
-
   async function handleAccept() {
     if (!selectedRequest) return;
     setIsSubmitting(true);
     try {
-      await api.respondToRequest(selectedRequest.id, {
+      await respondToRequest(selectedRequest.id, {
         status: 'ACCEPTED',
         meeting_schedule: meetingSchedule,
         google_meet_link: meetLink,
       });
       Alert.alert('Request Accepted', 'Student has been notified and session scheduled.');
       setSelectedRequest(null);
-      loadRequests();
-    } catch (err: any) {
+    } catch {
       Alert.alert('Notice', 'Request marked accepted.');
       setRequests((prev) => prev.filter((r) => r.id !== selectedRequest.id));
       setSelectedRequest(null);
@@ -69,7 +50,7 @@ export default function RequestsScreen() {
         style: 'destructive',
         onPress: async () => {
           try {
-            await api.respondToRequest(reqId, {
+            await respondToRequest(reqId, {
               status: 'DECLINED',
               decline_reason: 'Sheikh schedule is currently full.',
             });
@@ -87,11 +68,8 @@ export default function RequestsScreen() {
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
-            onRefresh={() => {
-              setRefreshing(true);
-              loadRequests();
-            }}
-            tintColor="#1993FA"
+            onRefresh={onRefresh}
+            tintColor={Colors.skyPrimary}
           />
         }
       >

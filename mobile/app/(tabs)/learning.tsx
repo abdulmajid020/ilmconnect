@@ -2,7 +2,7 @@ import { Calendar, ExternalLink, UserCheck, Users, Video } from 'lucide-react-na
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Linking, RefreshControl, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInUp } from 'react-native-reanimated';
-import { api } from '../../src/api/client';
+import { LearnersService } from '../../src/services';
 import { Colors } from '../../src/constants/theme';
 import { useTheme } from '../../src/context/ThemeContext';
 
@@ -22,8 +22,8 @@ export default function MyLearningScreen() {
     setIsLoading(true);
     try {
       const [teachersRes, classesRes] = await Promise.all([
-        api.getMyTeachers().catch(() => []),
-        api.getMyClasses().catch(() => []),
+        LearnersService.getMyTeachers().catch(() => []),
+        LearnersService.getMyClasses().catch(() => []),
       ]);
 
       setActiveTeachers(Array.isArray(teachersRes) ? teachersRes : []);

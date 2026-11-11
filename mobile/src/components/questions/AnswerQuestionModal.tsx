@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { api } from '../../api/client';
+import { QuestionsService } from '../../services/questions.service';
 import { Colors } from '../../constants/theme';
 
 interface AnswerQuestionModalProps {
@@ -36,7 +36,7 @@ export function AnswerQuestionModal({
 
     setIsSubmittingAnswer(true);
     try {
-      await api.answerQuestion(question.id, answerText.trim());
+      await QuestionsService.answerQuestion(question.id, answerText.trim());
       Alert.alert('Ruling Published', 'Your fatwa has been published to the community board.');
       setAnswerText('');
       onSuccess();

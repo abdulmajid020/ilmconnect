@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { api } from '../../src/api/client';
+import { AuthService } from '../../src/services';
 import { Colors } from '../../src/constants/theme';
 import { useAuth } from '../../src/context/AuthContext';
 import { useTheme } from '../../src/context/ThemeContext';
@@ -36,7 +36,7 @@ export default function RegisterScreen() {
     setErrorMessage('');
 
     try {
-      const res = await api.register({
+      const res = await AuthService.register({
         full_name: fullName,
         email: email || undefined,
         phone_number: phoneNumber || undefined,

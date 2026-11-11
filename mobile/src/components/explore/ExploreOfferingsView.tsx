@@ -16,7 +16,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { api } from '../../api/client';
+import { ClassesService, TeachersService } from '../../services';
 import { Colors } from '../../constants/theme';
 import { RequestLessonModal } from '../common/RequestLessonModal';
 
@@ -43,8 +43,8 @@ export function ExploreOfferingsView({ isDark }: ExploreOfferingsViewProps) {
     setIsLoading(true);
     try {
       const [teachersRes, classesRes] = await Promise.all([
-        api.searchTeachers().catch(() => []),
-        api.listClasses().catch(() => []),
+        TeachersService.searchTeachers().catch(() => []),
+        ClassesService.listClasses().catch(() => []),
       ]);
       setTeachers(Array.isArray(teachersRes) ? teachersRes : []);
       setClasses(Array.isArray(classesRes) ? classesRes : []);
@@ -59,7 +59,7 @@ export function ExploreOfferingsView({ isDark }: ExploreOfferingsViewProps) {
 
   async function handleEnroll(classItem: any) {
     try {
-      const res = await api.enrollClass(classItem.id);
+      const res = await ClassesService.enrollClass(classItem.id);
       Alert.alert(
         res.status === 'ENROLLED' ? '✅ Enrolled Successfully!' : '📋 Waitlisted',
         res.message || `You have been registered for "${classItem.title}".`

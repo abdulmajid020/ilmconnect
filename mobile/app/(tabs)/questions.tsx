@@ -1,7 +1,6 @@
 import { HelpCircle, Plus } from 'lucide-react-native';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { ActivityIndicator, RefreshControl, ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import { api } from '../../src/api/client';
 import { AnswerQuestionModal } from '../../src/components/questions/AnswerQuestionModal';
 import { AskQuestionModal } from '../../src/components/questions/AskQuestionModal';
 import { QuestionCard } from '../../src/components/questions/QuestionCard';
@@ -9,6 +8,7 @@ import { SUBJECT_OPTIONS } from '../../src/constants/labels';
 import { Colors } from '../../src/constants/theme';
 import { useAuth } from '../../src/context/AuthContext';
 import { useTheme } from '../../src/context/ThemeContext';
+import { useQuestions } from '../../src/hooks/useQuestions';
 
 const SUBJECTS = ['ALL', ...SUBJECT_OPTIONS];
 
@@ -17,33 +17,14 @@ export default function QuestionsScreen() {
   const { user } = useAuth();
   const isTeacher = Array.isArray(user?.roles) && user.roles.includes('TEACHER');
 
-  const [questions, setQuestions] = useState<any[]>([]);
   const [selectedSubject, setSelectedSubject] = useState('ALL');
-  const [isLoading, setIsLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
   const [expandedQuestionId, setExpandedQuestionId] = useState<string | null>(null);
 
   // Modals
   const [showAskModal, setShowAskModal] = useState(false);
   const [answeringQuestion, setAnsweringQuestion] = useState<any>(null);
 
-  useEffect(() => {
-    loadQuestions();
-  }, [selectedSubject]);
-
-  async function loadQuestions() {
-    setIsLoading(true);
-    try {
-      const filter = selectedSubject === 'ALL' ? '' : selectedSubject;
-      const res = await api.listQuestions(filter).catch(() => []);
-      setQuestions(Array.isArray(res) ? res : []);
-    } catch {
-      setQuestions([]);
-    } finally {
-      setIsLoading(false);
-      setRefreshing(false);
-    }
-  }
+  const { questions, isLoading, refreshing, loadQuestions, onRefresh } = useQuestions(selectedSubject);
 
   return (
     <View className={`flex-1 ${isDark ? 'bg-amoled-bg' : 'bg-slate-50'}`}>
@@ -84,11 +65,7 @@ export default function QuestionsScreen() {
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
-            onRefresh={async () => {
-              setRefreshing(true);
-              await loadQuestions();
-              setRefreshing(false);
-            }}
+            onRefresh={onRefresh}
             tintColor={Colors.skyPrimary}
           />
         }

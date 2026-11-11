@@ -2,7 +2,7 @@ import * as Location from 'expo-location';
 import { Locate, X } from 'lucide-react-native';
 import { useState } from 'react';
 import { ActivityIndicator, Alert, Modal, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { api } from '../../api/client';
+import { TeachersService } from '../../services/teachers.service';
 import { LOCATION_TYPE_OPTIONS } from '../../constants/labels';
 
 interface AddLocationModalProps {
@@ -71,7 +71,7 @@ export function AddLocationModal({
 
     setIsAddingLoc(true);
     try {
-      await api.addTeacherLocation({
+      await TeachersService.addTeacherLocation({
         location_name: locName.trim(),
         location_type: locType,
         address: locAddress.trim(),

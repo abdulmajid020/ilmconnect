@@ -3,7 +3,7 @@ import { Calendar, GraduationCap, Plus, Users, Video } from 'lucide-react-native
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Linking, RefreshControl, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
-import { api } from '../../src/api/client';
+import { ClassesService, TeachersService } from '../../src/services';
 import { AddLocationModal } from '../../src/components/teaching/AddLocationModal';
 import { CreateClassModal } from '../../src/components/teaching/CreateClassModal';
 import { TeachingLocationsSection } from '../../src/components/teaching/TeachingLocationsSection';
@@ -29,8 +29,8 @@ export default function TeachingScreen() {
     setIsLoading(true);
     try {
       const [classesRes, locsRes] = await Promise.all([
-        api.getTeacherMyClasses().catch(() => []),
-        api.getMyTeacherLocations().catch(() => []),
+        ClassesService.getTeacherMyClasses().catch(() => []),
+        TeachersService.getMyTeacherLocations().catch(() => []),
       ]);
       setClasses(Array.isArray(classesRes) ? classesRes : []);
       setLocations(Array.isArray(locsRes) ? locsRes : []);
@@ -51,7 +51,7 @@ export default function TeachingScreen() {
         style: 'destructive',
         onPress: async () => {
           try {
-            await api.deleteTeacherLocation(locId);
+            await TeachersService.deleteTeacherLocation(locId);
             setLocations((prev) => prev.filter((l) => l.id !== locId));
           } catch (err: any) {
             Alert.alert('Error', err?.message || 'Failed to delete location.');

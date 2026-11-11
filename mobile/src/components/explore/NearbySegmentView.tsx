@@ -14,10 +14,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { api, NearbyTeacher } from '../../api/client';
 import { FORMAT_LABELS } from '../../constants/labels';
 import { Colors } from '../../constants/theme';
 import { useLocation } from '../../hooks/useLocation';
+import { useNearbyTeachers } from '../../hooks/useNearbyTeachers';
 import { ManualLocationModal } from '../common/ManualLocationModal';
 import { NearbyMapView } from '../common/NearbyMapView';
 import { RequestLessonModal } from '../common/RequestLessonModal';
@@ -42,54 +42,26 @@ export function NearbySegmentView({ isDark }: NearbySegmentViewProps) {
   const [radius, setRadius] = useState<Radius>(10);
   const [subject, setSubject] = useState<Subject>('All');
   const [format, setFormat] = useState<Format>('All');
-  const [nearbyResults, setNearbyResults] = useState<NearbyTeacher[]>([]);
-  const [nearbyCount, setNearbyCount] = useState(0);
-  const [radiusKm, setRadiusKm] = useState(10);
-  const [isLoading, setIsLoading] = useState(false);
-  const [refreshing, setRefreshing] = useState(false);
-  const [hasSearched, setHasSearched] = useState(false);
   const [viewMode, setViewMode] = useState<'LIST' | 'MAP'>('LIST');
 
   // Modals state
   const [showManualModal, setShowManualModal] = useState(false);
-  const [selectedTeacher, setSelectedTeacher] = useState<NearbyTeacher | null>(null);
+  const [selectedTeacher, setSelectedTeacher] = useState<any | null>(null);
 
-  const searchNearby = useCallback(
-    async (isRefresh = false) => {
-      if (!location.coords) return;
-      if (isRefresh) setRefreshing(true);
-      else setIsLoading(true);
-
-      try {
-        const params: Parameters<typeof api.getNearbyTeachers>[0] = {
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-          radius,
-        };
-        if (subject !== 'All') params.subject = subject;
-        if (format !== 'All') params.teaching_format = format;
-
-        const res = await api.getNearbyTeachers(params);
-        setNearbyResults(Array.isArray(res.data) ? res.data : []);
-        setNearbyCount(res.count ?? 0);
-        setRadiusKm(res.radius_km ?? radius);
-      } catch {
-        setNearbyResults([]);
-        setNearbyCount(0);
-      } finally {
-        setIsLoading(false);
-        setRefreshing(false);
-        setHasSearched(true);
-      }
-    },
-    [location.coords, radius, subject, format]
-  );
-
-  useEffect(() => {
-    if (location.coords) {
-      searchNearby();
-    }
-  }, [location.coords, radius, subject, format, searchNearby]);
+  const {
+    teachers: nearbyResults,
+    count: nearbyCount,
+    radiusKm,
+    isLoading,
+    refreshing,
+    hasSearched,
+    search: searchNearby,
+  } = useNearbyTeachers({
+    coords: location.coords,
+    radius,
+    subject,
+    format,
+  });
 
   const card = isDark ? 'bg-amoled-card border-amoled-border' : 'bg-white border-slate-200';
 

@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { api } from '../../api/client';
+import { QuestionsService } from '../../services/questions.service';
 import { SUBJECT_OPTIONS } from '../../constants/labels';
 import { Colors } from '../../constants/theme';
 
@@ -42,7 +42,7 @@ export function AskQuestionModal({
 
     setIsSubmitting(true);
     try {
-      await api.createQuestion({
+      await QuestionsService.createQuestion({
         subject: newSubject,
         title: newTitle.trim(),
         content: newContent.trim(),

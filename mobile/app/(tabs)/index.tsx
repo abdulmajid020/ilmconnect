@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RefreshControl, ScrollView, Text, View } from 'react-native';
-import { api } from '../../src/api/client';
-import { AladhanData, fetchPrayerTimes, getNextPrayer, pad2, PrayerKey, timeUntilPrayer, to12Hr } from '../../src/api/prayerTimes';
+import { ClassesService, QuestionsService } from '../../src/services';
 import { FeaturedClassCard } from '../../src/components/home/FeaturedClassCard';
 import { HomeBannerCarousel } from '../../src/components/home/HomeBannerCarousel';
 import { HomeHeaderPrayer } from '../../src/components/home/HomeHeaderPrayer';
@@ -9,6 +8,7 @@ import { HomeQuickActions } from '../../src/components/home/HomeQuickActions';
 import { RulingHighlightCard } from '../../src/components/home/RulingHighlightCard';
 import { useAuth } from '../../src/context/AuthContext';
 import { useTheme } from '../../src/context/ThemeContext';
+import { usePrayerCountdown } from '../../src/hooks/usePrayerCountdown';
 
 export default function HomeScreen() {
   const { user } = useAuth();
@@ -21,51 +21,19 @@ export default function HomeScreen() {
   const [questions, setQuestions] = useState<any[]>([]);
   const [refreshing, setRefreshing] = useState(false);
 
-  // ── Prayer times from AlAdhan API ─────────────────────────────────────────────
-  const [prayerData, setPrayerData] = useState<AladhanData | null>(null);
-  const [nextPrayer, setNextPrayer] = useState<PrayerKey>('Fajr');
-  const [countdown, setCountdown] = useState('--:--:--');
-  const countdownRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  // ── Prayer times via custom hook ─────────────────────────────────────────────
+  const { nextPrayer, countdown, nextPrayerTime, hijriLabel, onRefresh: refreshPrayer } =
+    usePrayerCountdown();
 
-  // ── Load prayer times ─────────────────────────────────────────────────────────
-  const loadPrayerTimes = useCallback(async () => {
-    const data = await fetchPrayerTimes();
-    if (data) {
-      setPrayerData(data);
-      const next = getNextPrayer(data.timings);
-      setNextPrayer(next ?? 'Fajr');
-    }
-  }, []);
-
-  // ── Countdown ticker ──────────────────────────────────────────────────────────
   useEffect(() => {
-    if (!prayerData) return;
-    const tick = () => {
-      const next = getNextPrayer(prayerData.timings);
-      const key = next ?? 'Fajr';
-      setNextPrayer(key);
-      const rawTime = prayerData.timings[key as keyof typeof prayerData.timings];
-      const { h, m, s } = timeUntilPrayer(rawTime);
-      setCountdown(`${pad2(h)}:${pad2(m)}:${pad2(s)}`);
-    };
-    tick();
-    countdownRef.current = setInterval(tick, 1000);
-    return () => {
-      if (countdownRef.current) clearInterval(countdownRef.current);
-    };
-  }, [prayerData]);
-
-  // ── Load app data ─────────────────────────────────────────────────────────────
-  useEffect(() => {
-    loadPrayerTimes();
     loadHomeData();
-  }, [loadPrayerTimes]);
+  }, []);
 
   async function loadHomeData() {
     try {
       const [classesRes, questionsRes] = await Promise.all([
-        api.listClasses().catch(() => []),
-        api.listQuestions().catch(() => []),
+        ClassesService.listClasses().catch(() => []),
+        QuestionsService.listQuestions().catch(() => []),
       ]);
       setClasses(Array.isArray(classesRes) ? classesRes : []);
       setQuestions(Array.isArray(questionsRes) ? questionsRes : []);
@@ -79,18 +47,9 @@ export default function HomeScreen() {
 
   async function onRefresh() {
     setRefreshing(true);
-    await Promise.all([loadPrayerTimes(), loadHomeData()]);
+    await Promise.all([refreshPrayer(), loadHomeData()]);
     setRefreshing(false);
   }
-
-  // ── Derived display values ────────────────────────────────────────────────────
-  const hijriLabel = prayerData
-    ? `${prayerData.date.hijri.day} ${prayerData.date.hijri.month.en} ${prayerData.date.hijri.year} AH`
-    : null;
-
-  const nextPrayerTime = prayerData
-    ? to12Hr(prayerData.timings[nextPrayer as keyof typeof prayerData.timings])
-    : '--:-- --';
 
   return (
     <View className={`flex-1 ${isDark ? 'bg-amoled-bg' : 'bg-slate-50'}`}>

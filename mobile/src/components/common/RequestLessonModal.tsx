@@ -9,7 +9,7 @@ import {
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { api } from '../../api/client';
+import { RequestsService } from '../../services/requests.service';
 import { Colors } from '../../constants/theme';
 
 interface RequestLessonModalProps {
@@ -45,7 +45,7 @@ export function RequestLessonModal({
 
     setIsSending(true);
     try {
-      await api.sendRequest({
+      await RequestsService.sendRequest({
         teacher_profile_id: teacherId,
         subject: subject.trim(),
         learner_message: message.trim() || undefined,

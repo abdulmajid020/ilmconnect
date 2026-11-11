@@ -1,7 +1,7 @@
 import { X } from 'lucide-react-native';
 import { useState } from 'react';
 import { ActivityIndicator, Alert, Modal, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { api } from '../../api/client';
+import { ClassesService } from '../../services/classes.service';
 
 interface CreateClassModalProps {
   visible: boolean;
@@ -32,7 +32,7 @@ export function CreateClassModal({
 
     setIsSubmitting(true);
     try {
-      await api.createClass({
+      await ClassesService.createClass({
         title: title.trim(),
         subject: subject.trim(),
         description: description.trim() || `Weekly Islamic Madrassa circle in ${subject}.`,
