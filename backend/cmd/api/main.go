@@ -66,7 +66,12 @@ func main() {
 	r.Use(chimw.Timeout(60 * time.Second))
 
 	r.Use(cors.Handler(cors.Options{
-		AllowedOrigins:   []string{cfg.CORSOrigin, "http://localhost:3000", "http://localhost:8081"},
+		AllowedOrigins: []string{
+			cfg.CORSOrigin,
+			"https://ilmconnect-9vnz.onrender.com",
+			"http://localhost:3000",
+			"http://localhost:8081",
+		},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
 		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
 		ExposedHeaders:   []string{"Link"},

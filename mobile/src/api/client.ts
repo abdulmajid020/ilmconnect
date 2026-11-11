@@ -3,20 +3,20 @@ import Constants from 'expo-constants';
 
 declare const process: { env?: Record<string, string | undefined> };
 
-// Dynamically determine the backend host:
+// Dynamically determine the backend host.
+// Priority:
+//   1. EXPO_PUBLIC_API_URL (set in .env — production Render URL or local override)
+//   2. LAN IP derived from Metro's hostUri (only used when running local dev without .env)
 const hostUri = Constants.expoConfig?.hostUri;
 const rawHost = hostUri ? hostUri.split(':')[0] : null;
-
-// Only use rawHost if it is a genuine IPv4 address on LAN (e.g. 192.168.x.x).
-// When using tunnel mode, hostUri is an external domain (e.g. *.exp.direct) which does not forward port 8080.
 const isLanIpv4 = rawHost && /^(\d{1,3}\.){3}\d{1,3}$/.test(rawHost);
 
 const configuredUrl = process.env?.EXPO_PUBLIC_API_URL;
 
 const HOST =
-  (isLanIpv4 ? `http://${rawHost}:8080` : null) ||
   configuredUrl ||
-  'http://192.168.100.52:8080';
+  (isLanIpv4 ? `http://${rawHost}:8080` : null) ||
+  'http://localhost:8080';
 
 export const API_BASE_URL = HOST.endsWith('/api/v1') ? HOST : `${HOST}/api/v1`;
 
