@@ -74,10 +74,16 @@ func main() {
 		MaxAge:           300,
 	}))
 
-	// Health Check
+	// Root endpoint
+	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.Write([]byte(`{"service":"IlmConnect API","version":"1.0.0","docs":"/api/v1"}`))
+	})
+
+	// Health check — used by Render and load balancers
 	r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
-		w.Write([]byte(`{"status":"healthy","service":"zoq-backend"}`))
+		w.Write([]byte(`{"status":"healthy","service":"ilmconnect-backend"}`))
 	})
 
 	// Static Uploads File Server
