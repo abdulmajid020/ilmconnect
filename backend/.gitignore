@@ -1,0 +1,13 @@
+# Binaries
+bin/
+*.exe
+
+# Local environment variables
+.env
+.env*.local
+
+# Logs & temp
+*.log
+uploads/*
+!uploads/.gitkeep
+
